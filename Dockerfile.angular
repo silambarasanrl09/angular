@@ -1,0 +1,12 @@
+FROM node:16 AS stage1
+WORKDIR /myapp
+COPY .  /myapp
+#RUN apt inst
+#RUN npm install
+RUN npm install -g @angular/cli
+RUN npm install
+RUN ng build 
+
+FROM nginx:latest AS stage2
+RUN rm /usr/share/nginx/html/index.html
+COPY --from=stage1 /myapp/dist/* /usr/share/nginx/html/
