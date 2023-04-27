@@ -12,13 +12,13 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t angular -f Dockerfile.angular .
-      - docker tag angular:latest 631803542312.dkr.ecr.us-east-1.amazonaws.com/angular:1
+      - docker tag angular:latest 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 631803542312.dkr.ecr.us-east-1.amazonaws.com/angular:1
-      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/angular:1 > imagedefinitions.json
+      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:latest > imagedefinitions.json
 artifacts:
   files:
     - buildspec.yml
