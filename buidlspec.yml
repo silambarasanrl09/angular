@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 631803542312.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - npm install -g @angular/cli
+      - npm install
+      - ng build 
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t angular:latest -f Dockerfile.angular_1 .
+      - docker tag angular:latest 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1
+      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1 > imagedefinitions.json
+artifacts:
+  files:
+    - buildspec.yml
+    - imagedefinitions.json
+  base-directory: myapp/dist/
+
