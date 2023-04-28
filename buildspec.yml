@@ -21,8 +21,8 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1
-      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1 > imagedefinition.json
+      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1 > imagedefinitions.json
 artifacts:
   files:
     - buildspec.yml
-    - imagedefinition.json
+    - imagedefinitions.json
