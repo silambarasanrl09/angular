@@ -9,17 +9,22 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 631803542312.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
+      - RUN npm install -g @angular/cli
+      - RUN npm install
+      - RUN ng build 
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t angular -f Dockerfile.angular .
-      - docker tag angular:latest 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:latest
+      - docker build -t angular:latest -f Dockerfile.angular_1 .
+      - docker tag angular:latest 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:latest
-      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:latest > imagedefinitions.json
+      - docker push 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1
+      - printf '[{"name":"nodejs","imageUri":"%s"}]' 631803542312.dkr.ecr.us-east-1.amazonaws.com/sft:angular-1 > imagedefinitions.json
 artifacts:
   files:
     - buildspec.yml
     - imagedefinitions.json
+  base-directory: myapp/dist/
+
