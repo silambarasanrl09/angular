@@ -26,5 +26,3 @@ artifacts:
   files:
     - buildspec.yml
     - imagedefinitions.json
-  base-directory: myapp/dist/
-
