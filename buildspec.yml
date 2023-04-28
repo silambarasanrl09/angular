@@ -9,9 +9,9 @@ phases:
       - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 631803542312.dkr.ecr.us-east-1.amazonaws.com
   build:
     commands:
-      - RUN npm install -g @angular/cli
-      - RUN npm install
-      - RUN ng build 
+      - npm install -g @angular/cli
+      - npm install
+      - ng build 
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t angular:latest -f Dockerfile.angular_1 .
